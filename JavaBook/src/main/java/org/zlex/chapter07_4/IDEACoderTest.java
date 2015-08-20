@@ -16,33 +16,33 @@ import org.junit.Test;
  */
 public class IDEACoderTest {
 
-	/**
-	 * 测试
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public final void test() throws Exception {
-		
-		String inputStr = "IDEA";
-		byte[] inputData = inputStr.getBytes();
-		System.err.println("原文:\t" + inputStr);
+    /**
+     * 测试
+     * 
+     * @throws Exception
+     */
+    @Test
+    public final void test() throws Exception {
 
-		// 初始化密钥
-		byte[] key = IDEACoder.initKey();
-		System.err.println("密钥:\t" + Base64.encodeBase64String(key));
+        String inputStr = "IDEA";
+        byte[] inputData = inputStr.getBytes();
+        System.err.println("原文:\t" + inputStr);
 
-		// 加密
-		inputData = IDEACoder.encrypt(inputData, key);
-		System.err.println("加密后:\t" + Base64.encodeBase64String(inputData));
+        // 初始化密钥
+        byte[] key = IDEACoder.initKey();
+        System.err.println("密钥:\t" + Base64.encodeBase64String(key));
 
-		// 解密
-		byte[] outputData = IDEACoder.decrypt(inputData, key);
+        // 加密
+        inputData = IDEACoder.encrypt(inputData, key);
+        System.err.println("加密后:\t" + Base64.encodeBase64String(inputData));
 
-		String outputStr = new String(outputData);
-		System.err.println("解密后:\t" + outputStr);
+        // 解密
+        byte[] outputData = IDEACoder.decrypt(inputData, key);
 
-		// 校验
-		assertEquals(inputStr, outputStr);
-	}
+        String outputStr = new String(outputData);
+        System.err.println("解密后:\t" + outputStr);
+
+        // 校验
+        assertEquals(inputStr, outputStr);
+    }
 }

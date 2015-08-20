@@ -19,54 +19,53 @@ import java.net.UnknownHostException;
  */
 public class Client implements Runnable {
 
-	private Socket socket;
+    private Socket socket;
 
-	public Client() {
+    public Client() {
 
-		try {
-			socket = new Socket(InetAddress.getLocalHost(), 9000);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            socket = new Socket(InetAddress.getLocalHost(), 9000);
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	public static void main(String[] args) {
-		Client client = new Client();
+    public static void main(String[] args) {
+        Client client = new Client();
 
-	}
+    }
 
-	@Override
-	public void run() {
-		try {
-			BufferedReader br = getReader(socket);
-			PrintWriter pw = getWriter(socket);
-			// 打印欢迎信息
-			pw.println("已连接到:" + socket.getLocalSocketAddress().toString());
-			String msg = null;
-			while ((msg = br.readLine()) != null) {
-				System.out.println(socket.getRemoteSocketAddress().toString()
-						+ ":" + msg);
-				pw.println("Server:" + msg);
-			}
+    @Override
+    public void run() {
+        try {
+            BufferedReader br = getReader(socket);
+            PrintWriter pw = getWriter(socket);
+            // 打印欢迎信息
+            pw.println("已连接到:" + socket.getLocalSocketAddress().toString());
+            String msg = null;
+            while ((msg = br.readLine()) != null) {
+                System.out.println(socket.getRemoteSocketAddress().toString() + ":" + msg);
+                pw.println("Server:" + msg);
+            }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private PrintWriter getWriter(Socket socket) throws IOException {
-		OutputStream socketOut = socket.getOutputStream();
-		return new PrintWriter(socketOut, true);
-	}
+    private PrintWriter getWriter(Socket socket) throws IOException {
+        OutputStream socketOut = socket.getOutputStream();
+        return new PrintWriter(socketOut, true);
+    }
 
-	private BufferedReader getReader(Socket socket) throws IOException {
-		InputStream socketIn = socket.getInputStream();
-		return new BufferedReader(new InputStreamReader(socketIn));
-	}
+    private BufferedReader getReader(Socket socket) throws IOException {
+        InputStream socketIn = socket.getInputStream();
+        return new BufferedReader(new InputStreamReader(socketIn));
+    }
 
 }

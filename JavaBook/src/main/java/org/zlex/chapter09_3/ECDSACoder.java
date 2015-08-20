@@ -35,204 +35,198 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public abstract class ECDSACoder {
 
-	/**
-	 * 数字签名 密钥算法
-	 */
-	private static final String KEY_ALGORITHM = "ECDSA";
+    /**
+     * 数字签名 密钥算法
+     */
+    private static final String KEY_ALGORITHM       = "ECDSA";
 
-	/**
-	 * 数字签名 签名/验证算法
-	 * 
-	 * Bouncy Castle支持以下7种算法
-	 * NONEwithECDSA 
-	 * RIPEMD160withECDSA 
-	 * SHA1withECDSA
-	 * SHA224withECDSA 
-	 * SHA256withECDSA 
-	 * SHA384withECDSA 
-	 * SHA512withECDSA
-	 */
-	private static final String SIGNATURE_ALGORITHM = "SHA512withECDSA";
+    /**
+     * 数字签名 签名/验证算法
+     * 
+     * Bouncy Castle支持以下7种算法
+     * NONEwithECDSA 
+     * RIPEMD160withECDSA 
+     * SHA1withECDSA
+     * SHA224withECDSA 
+     * SHA256withECDSA 
+     * SHA384withECDSA 
+     * SHA512withECDSA
+     */
+    private static final String SIGNATURE_ALGORITHM = "SHA512withECDSA";
 
-	/**
-	 * 公钥
-	 */
-	private static final String PUBLIC_KEY = "ECDSAPublicKey";
+    /**
+     * 公钥
+     */
+    private static final String PUBLIC_KEY          = "ECDSAPublicKey";
 
-	/**
-	 * 私钥
-	 */
-	private static final String PRIVATE_KEY = "ECDSAPrivateKey";
+    /**
+     * 私钥
+     */
+    private static final String PRIVATE_KEY         = "ECDSAPrivateKey";
 
-	/**
-	 * 初始化密钥
-	 * 
-	 * @return Map 密钥Map
-	 * @throws Exception
-	 */
-	public static Map<String, Object> initKey() throws Exception {
+    /**
+     * 初始化密钥
+     * 
+     * @return Map 密钥Map
+     * @throws Exception
+     */
+    public static Map<String, Object> initKey() throws Exception {
 
-		// 加入BouncyCastleProvider支持
-		Security.addProvider(new BouncyCastleProvider());
+        // 加入BouncyCastleProvider支持
+        Security.addProvider(new BouncyCastleProvider());
 
-		BigInteger p = new BigInteger(
-				"883423532389192164791648750360308885314476597252960362792450860609699839");
- 
-		ECFieldFp ecFieldFp = new ECFieldFp(p);
+        BigInteger p = new BigInteger(
+            "883423532389192164791648750360308885314476597252960362792450860609699839");
 
-		BigInteger a = new BigInteger(
-				"7fffffffffffffffffffffff7fffffffffff8000000000007ffffffffffc",
-				16);
- 
-		BigInteger b = new BigInteger(
-				"6b016c3bdcf18941d0d654921475ca71a9db2fb27d1d37796185c2942c0a",
-				16);
- 
-		EllipticCurve ellipticCurve = new EllipticCurve(ecFieldFp, a, b);
+        ECFieldFp ecFieldFp = new ECFieldFp(p);
 
-		BigInteger x = new BigInteger(
-				"110282003749548856476348533541186204577905061504881242240149511594420911");
- 
-		BigInteger y = new BigInteger(
-				"869078407435509378747351873793058868500210384946040694651368759217025454");
- 
-		ECPoint g = new ECPoint(x, y);
+        BigInteger a = new BigInteger(
+            "7fffffffffffffffffffffff7fffffffffff8000000000007ffffffffffc", 16);
 
-		BigInteger n = new BigInteger(
-				"883423532389192164791648750360308884807550341691627752275345424702807307");
+        BigInteger b = new BigInteger(
+            "6b016c3bdcf18941d0d654921475ca71a9db2fb27d1d37796185c2942c0a", 16);
 
-		ECParameterSpec ecParameterSpec = new ECParameterSpec(ellipticCurve, g,
-				n, 1);
+        EllipticCurve ellipticCurve = new EllipticCurve(ecFieldFp, a, b);
 
-		// 实例化密钥对儿生成器
-		KeyPairGenerator kpg = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+        BigInteger x = new BigInteger(
+            "110282003749548856476348533541186204577905061504881242240149511594420911");
 
-		// 初始化密钥对儿生成器
-		kpg.initialize(ecParameterSpec, new SecureRandom());
+        BigInteger y = new BigInteger(
+            "869078407435509378747351873793058868500210384946040694651368759217025454");
 
-		// 生成密钥对儿
-		KeyPair keypair = kpg.generateKeyPair();
+        ECPoint g = new ECPoint(x, y);
 
-		ECPublicKey publicKey = (ECPublicKey) keypair.getPublic();
+        BigInteger n = new BigInteger(
+            "883423532389192164791648750360308884807550341691627752275345424702807307");
 
-		ECPrivateKey privateKey = (ECPrivateKey) keypair.getPrivate();
+        ECParameterSpec ecParameterSpec = new ECParameterSpec(ellipticCurve, g, n, 1);
 
-		// 封装密钥
-		Map<String, Object> map = new HashMap<String, Object>(2);
+        // 实例化密钥对儿生成器
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(KEY_ALGORITHM);
 
-		map.put(PUBLIC_KEY, publicKey);
-		map.put(PRIVATE_KEY, privateKey);
+        // 初始化密钥对儿生成器
+        kpg.initialize(ecParameterSpec, new SecureRandom());
 
-		return map;
-	}
+        // 生成密钥对儿
+        KeyPair keypair = kpg.generateKeyPair();
 
-	/**
-	 * 取得私钥
-	 * 
-	 * @param keyMap
-	 *            密钥Map
-	 * @return byte[] 私钥
-	 * @throws Exception
-	 */
-	public static byte[] getPrivateKey(Map<String, Object> keyMap)
-			throws Exception {
+        ECPublicKey publicKey = (ECPublicKey) keypair.getPublic();
 
-		Key key = (Key) keyMap.get(PRIVATE_KEY);
+        ECPrivateKey privateKey = (ECPrivateKey) keypair.getPrivate();
 
-		return key.getEncoded();
-	}
+        // 封装密钥
+        Map<String, Object> map = new HashMap<String, Object>(2);
 
-	/**
-	 * 取得公钥
-	 * 
-	 * @param keyMap
-	 *            密钥Map
-	 * @return byte[] 公钥
-	 * @throws Exception
-	 */
-	public static byte[] getPublicKey(Map<String, Object> keyMap)
-			throws Exception {
+        map.put(PUBLIC_KEY, publicKey);
+        map.put(PRIVATE_KEY, privateKey);
 
-		Key key = (Key) keyMap.get(PUBLIC_KEY);
+        return map;
+    }
 
-		return key.getEncoded();
-	}
+    /**
+     * 取得私钥
+     * 
+     * @param keyMap
+     *            密钥Map
+     * @return byte[] 私钥
+     * @throws Exception
+     */
+    public static byte[] getPrivateKey(Map<String, Object> keyMap) throws Exception {
 
-	/**
-	 * 签名
-	 * 
-	 * @param data
-	 *            待签名数据
-	 * @param privateKey
-	 *            私钥
-	 * @return byte[] 数字签名
-	 * @throws Exception
-	 */
-	public static byte[] sign(byte[] data, byte[] privateKey) throws Exception {
+        Key key = (Key) keyMap.get(PRIVATE_KEY);
 
-		// 加入BouncyCastleProvider支持
-		Security.addProvider(new BouncyCastleProvider());
+        return key.getEncoded();
+    }
 
-		// 转换私钥材料
-		PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateKey);
+    /**
+     * 取得公钥
+     * 
+     * @param keyMap
+     *            密钥Map
+     * @return byte[] 公钥
+     * @throws Exception
+     */
+    public static byte[] getPublicKey(Map<String, Object> keyMap) throws Exception {
 
-		// 实例化密钥工厂
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        Key key = (Key) keyMap.get(PUBLIC_KEY);
 
-		// 取私钥匙对象
-		PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
+        return key.getEncoded();
+    }
 
-		// 实例化Signature
-		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+    /**
+     * 签名
+     * 
+     * @param data
+     *            待签名数据
+     * @param privateKey
+     *            私钥
+     * @return byte[] 数字签名
+     * @throws Exception
+     */
+    public static byte[] sign(byte[] data, byte[] privateKey) throws Exception {
 
-		// 初始化Signature
-		signature.initSign(priKey);
+        // 加入BouncyCastleProvider支持
+        Security.addProvider(new BouncyCastleProvider());
 
-		// 更新
-		signature.update(data);
+        // 转换私钥材料
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateKey);
 
-		// 签名
-		return signature.sign();
-	}
+        // 实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
 
-	/**
-	 * 校验
-	 * 
-	 * @param data
-	 *            待校验数据
-	 * @param publicKey
-	 *            公钥
-	 * @param sign
-	 *            数字签名
-	 * @return boolean 校验成功返回true 失败返回false
-	 * @throws Exception
-	 * 
-	 */
-	public static boolean verify(byte[] data, byte[] publicKey, byte[] sign)
-			throws Exception {
+        // 取私钥匙对象
+        PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
 
-		// 加入BouncyCastleProvider支持
-		Security.addProvider(new BouncyCastleProvider());
+        // 实例化Signature
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
 
-		// 转换公钥材料
-		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
+        // 初始化Signature
+        signature.initSign(priKey);
 
-		// 实例化密钥工厂
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        // 更新
+        signature.update(data);
 
-		// 生成公钥
-		PublicKey pubKey = keyFactory.generatePublic(keySpec);
+        // 签名
+        return signature.sign();
+    }
 
-		// 实例化Signature
-		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+    /**
+     * 校验
+     * 
+     * @param data
+     *            待校验数据
+     * @param publicKey
+     *            公钥
+     * @param sign
+     *            数字签名
+     * @return boolean 校验成功返回true 失败返回false
+     * @throws Exception
+     * 
+     */
+    public static boolean verify(byte[] data, byte[] publicKey, byte[] sign) throws Exception {
 
-		// 初始化Signature
-		signature.initVerify(pubKey);
+        // 加入BouncyCastleProvider支持
+        Security.addProvider(new BouncyCastleProvider());
 
-		// 更新
-		signature.update(data);
+        // 转换公钥材料
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
 
-		// 验证
-		return signature.verify(sign);
-	}
+        // 实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+
+        // 生成公钥
+        PublicKey pubKey = keyFactory.generatePublic(keySpec);
+
+        // 实例化Signature
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+
+        // 初始化Signature
+        signature.initVerify(pubKey);
+
+        // 更新
+        signature.update(data);
+
+        // 验证
+        return signature.verify(sign);
+    }
 }

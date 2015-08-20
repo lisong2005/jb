@@ -17,231 +17,226 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public abstract class MACCoder {
 
-	/**
-	 * 初始化HmacMD5密钥
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] initHmacMD5Key() throws Exception {
+    /**
+     * 初始化HmacMD5密钥
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static byte[] initHmacMD5Key() throws Exception {
 
-		// 初始化KeyGenerator
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacMD5");
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacMD5");
 
-		// 产生秘密密钥
-		SecretKey secretKey = keyGenerator.generateKey();
+        // 产生秘密密钥
+        SecretKey secretKey = keyGenerator.generateKey();
 
-		// 获得密钥
-		return secretKey.getEncoded();
-	}
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-	/**
-	 * HmacMD5加密
-	 * 
-	 * @param data
-	 *            待加密数据
-	 * @param key
-	 *            密钥
-	 * @return byte[] 消息摘要
-	 * 
-	 * @throws Exception
-	 */
-	public static byte[] encodeHmacMD5(byte[] data, byte[] key)
-			throws Exception {
+    /**
+     * HmacMD5加密
+     * 
+     * @param data
+     *            待加密数据
+     * @param key
+     *            密钥
+     * @return byte[] 消息摘要
+     * 
+     * @throws Exception
+     */
+    public static byte[] encodeHmacMD5(byte[] data, byte[] key) throws Exception {
 
-		// 还原密钥
-		SecretKey secretKey = new SecretKeySpec(key, "HmacMD5");
+        // 还原密钥
+        SecretKey secretKey = new SecretKeySpec(key, "HmacMD5");
 
-		// 实例化Mac "SslMacMD5"
-		Mac mac = Mac.getInstance("SslMacMD5");//secretKey.getAlgorithm());
+        // 实例化Mac "SslMacMD5"
+        Mac mac = Mac.getInstance("SslMacMD5");//secretKey.getAlgorithm());
 
-		// 初始化Mac
-		mac.init(secretKey);
+        // 初始化Mac
+        mac.init(secretKey);
 
-		// 执行消息摘要
-		return mac.doFinal(data);
-	}
+        // 执行消息摘要
+        return mac.doFinal(data);
+    }
 
-	/**
-	 * 初始化HmacSHA1密钥
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] initHmacSHAKey() throws Exception {
+    /**
+     * 初始化HmacSHA1密钥
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static byte[] initHmacSHAKey() throws Exception {
 
-		// 初始化KeyGenerator
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("HMacTiger");
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HMacTiger");
 
-		// 产生秘密密钥
-		SecretKey secretKey = keyGenerator.generateKey();
+        // 产生秘密密钥
+        SecretKey secretKey = keyGenerator.generateKey();
 
-		// 获得密钥
-		return secretKey.getEncoded();
-	}
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-	/**
-	 * HmacSHA1加密
-	 * 
-	 * @param data
-	 *            待加密数据
-	 * @param key
-	 *            密钥
-	 * @return byte[] 消息摘要
-	 * 
-	 * @throws Exception
-	 */
-	public static byte[] encodeHmacSHA(byte[] data, byte[] key)
-			throws Exception {
+    /**
+     * HmacSHA1加密
+     * 
+     * @param data
+     *            待加密数据
+     * @param key
+     *            密钥
+     * @return byte[] 消息摘要
+     * 
+     * @throws Exception
+     */
+    public static byte[] encodeHmacSHA(byte[] data, byte[] key) throws Exception {
 
-		// 还原密钥
-		SecretKey secretKey = new SecretKeySpec(key, "HMacTiger");
- 
-		// 实例化Mac SslMacMD5
-		Mac mac = Mac.getInstance("SslMacMD5");//secretKey.getAlgorithm());
+        // 还原密钥
+        SecretKey secretKey = new SecretKeySpec(key, "HMacTiger");
 
-		// 初始化Mac
-		mac.init(secretKey);
+        // 实例化Mac SslMacMD5
+        Mac mac = Mac.getInstance("SslMacMD5");//secretKey.getAlgorithm());
 
-		// 执行消息摘要
-		return mac.doFinal(data);
-	}
-	
-//	// 根据所安装的 JCE 仲裁策略文件，返回指定转换的最大密钥长度。
-//	public final static int getMaxAllowedKeyLength(String transformation) 
+        // 初始化Mac
+        mac.init(secretKey);
 
-	/**
-	 * 初始化HmacSHA256密钥
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] initHmacSHA256Key() throws Exception {
+        // 执行消息摘要
+        return mac.doFinal(data);
+    }
 
-		// 初始化KeyGenerator
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+    //	// 根据所安装的 JCE 仲裁策略文件，返回指定转换的最大密钥长度。
+    //	public final static int getMaxAllowedKeyLength(String transformation) 
 
-		// 产生秘密密钥
-		SecretKey secretKey = keyGenerator.generateKey();
+    /**
+     * 初始化HmacSHA256密钥
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static byte[] initHmacSHA256Key() throws Exception {
 
-		// 获得密钥
-		return secretKey.getEncoded();
-	}
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
 
-	/**
-	 * HmacSHA256加密
-	 * 
-	 * @param data
-	 *            待加密数据
-	 * @param key
-	 *            密钥
-	 * @return byte[] 消息摘要
-	 * 
-	 * @throws Exception
-	 */
-	public static byte[] encodeHmacSHA256(byte[] data, byte[] key)
-			throws Exception {
+        // 产生秘密密钥
+        SecretKey secretKey = keyGenerator.generateKey();
 
-		// 还原密钥
-		SecretKey secretKey = new SecretKeySpec(key, "HmacSHA256");
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-		// 实例化Mac
-		Mac mac = Mac.getInstance(secretKey.getAlgorithm());
+    /**
+     * HmacSHA256加密
+     * 
+     * @param data
+     *            待加密数据
+     * @param key
+     *            密钥
+     * @return byte[] 消息摘要
+     * 
+     * @throws Exception
+     */
+    public static byte[] encodeHmacSHA256(byte[] data, byte[] key) throws Exception {
 
-		// 初始化Mac
-		mac.init(secretKey);
+        // 还原密钥
+        SecretKey secretKey = new SecretKeySpec(key, "HmacSHA256");
 
-		// 执行消息摘要
-		return mac.doFinal(data);
-	}
+        // 实例化Mac
+        Mac mac = Mac.getInstance(secretKey.getAlgorithm());
 
-	/**
-	 * 初始化HmacSHA384密钥
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] initHmacSHA384Key() throws Exception {
+        // 初始化Mac
+        mac.init(secretKey);
 
-		// 初始化KeyGenerator
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA384");
+        // 执行消息摘要
+        return mac.doFinal(data);
+    }
 
-		// 产生秘密密钥
-		SecretKey secretKey = keyGenerator.generateKey();
+    /**
+     * 初始化HmacSHA384密钥
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static byte[] initHmacSHA384Key() throws Exception {
 
-		// 获得密钥
-		return secretKey.getEncoded();
-	}
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA384");
 
-	/**
-	 * HmacSHA384加密
-	 * 
-	 * @param data
-	 *            待加密数据
-	 * @param key
-	 *            密钥
-	 * @return byte[] 消息摘要
-	 * 
-	 * @throws Exception
-	 */
-	public static byte[] encodeHmacSHA384(byte[] data, byte[] key)
-			throws Exception {
+        // 产生秘密密钥
+        SecretKey secretKey = keyGenerator.generateKey();
 
-		// 还原密钥
-		SecretKey secretKey = new SecretKeySpec(key, "HmacSHA384");
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-		// 实例化Mac
-		Mac mac = Mac.getInstance(secretKey.getAlgorithm());
+    /**
+     * HmacSHA384加密
+     * 
+     * @param data
+     *            待加密数据
+     * @param key
+     *            密钥
+     * @return byte[] 消息摘要
+     * 
+     * @throws Exception
+     */
+    public static byte[] encodeHmacSHA384(byte[] data, byte[] key) throws Exception {
 
-		// 初始化Mac
-		mac.init(secretKey);
+        // 还原密钥
+        SecretKey secretKey = new SecretKeySpec(key, "HmacSHA384");
 
-		// 执行消息摘要
-		return mac.doFinal(data);
-	}
+        // 实例化Mac
+        Mac mac = Mac.getInstance(secretKey.getAlgorithm());
 
-	/**
-	 * 初始化HmacSHA512密钥
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] initHmacSHA512Key() throws Exception {
+        // 初始化Mac
+        mac.init(secretKey);
 
-		// 初始化KeyGenerator
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA512");
+        // 执行消息摘要
+        return mac.doFinal(data);
+    }
 
-		// 产生秘密密钥
-		SecretKey secretKey = keyGenerator.generateKey();
+    /**
+     * 初始化HmacSHA512密钥
+     * 
+     * @return
+     * @throws Exception
+     */
+    public static byte[] initHmacSHA512Key() throws Exception {
 
-		// 获得密钥
-		return secretKey.getEncoded();
-	}
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA512");
 
-	/**
-	 * HmacSHA512加密
-	 * 
-	 * @param data
-	 *            待加密数据
-	 * @param key
-	 *            密钥
-	 * @return byte[] 消息摘要
-	 * 
-	 * @throws Exception
-	 */
-	public static byte[] encodeHmacSHA512(byte[] data, byte[] key)
-			throws Exception {
+        // 产生秘密密钥
+        SecretKey secretKey = keyGenerator.generateKey();
 
-		// 还原密钥
-		SecretKey secretKey = new SecretKeySpec(key, "HmacSHA512");
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-		// 实例化Mac
-		Mac mac = Mac.getInstance(secretKey.getAlgorithm());
+    /**
+     * HmacSHA512加密
+     * 
+     * @param data
+     *            待加密数据
+     * @param key
+     *            密钥
+     * @return byte[] 消息摘要
+     * 
+     * @throws Exception
+     */
+    public static byte[] encodeHmacSHA512(byte[] data, byte[] key) throws Exception {
 
-		// 初始化Mac
-		mac.init(secretKey);
+        // 还原密钥
+        SecretKey secretKey = new SecretKeySpec(key, "HmacSHA512");
 
-		// 执行消息摘要
-		return mac.doFinal(data);
-	}
+        // 实例化Mac
+        Mac mac = Mac.getInstance(secretKey.getAlgorithm());
+
+        // 初始化Mac
+        mac.init(secretKey);
+
+        // 执行消息摘要
+        return mac.doFinal(data);
+    }
 }

@@ -20,54 +20,54 @@ import org.junit.Test;
  */
 public class ECDSACoderTest {
 
-	/**
-	 * 公钥
-	 */
-	private byte[] publicKey;
+    /**
+     * 公钥
+     */
+    private byte[] publicKey;
 
-	/**
-	 * 私钥
-	 */
-	private byte[] privateKey;
+    /**
+     * 私钥
+     */
+    private byte[] privateKey;
 
-	/**
-	 * 初始化密钥
-	 * 
-	 * @throws Exception
-	 */
-	@Before
-	public void initKey() throws Exception {
+    /**
+     * 初始化密钥
+     * 
+     * @throws Exception
+     */
+    @Before
+    public void initKey() throws Exception {
 
-		Map<String, Object> keyMap = ECDSACoder.initKey();
+        Map<String, Object> keyMap = ECDSACoder.initKey();
 
-		publicKey = ECDSACoder.getPublicKey(keyMap);
+        publicKey = ECDSACoder.getPublicKey(keyMap);
 
-		privateKey = ECDSACoder.getPrivateKey(keyMap);
+        privateKey = ECDSACoder.getPrivateKey(keyMap);
 
-		System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
-		System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
-	}
+        System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
+        System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
+    }
 
-	/**
-	 * 校验
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void test() throws Exception {
+    /**
+     * 校验
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void test() throws Exception {
 
-		String inputStr = "ECDSA 数字签名";
-		byte[] data = inputStr.getBytes();
+        String inputStr = "ECDSA 数字签名";
+        byte[] data = inputStr.getBytes();
 
-		// 产生签名
-		byte[] sign = ECDSACoder.sign(data, privateKey);
-		System.err.println("签名:\r" + Hex.encodeHexString(sign));
+        // 产生签名
+        byte[] sign = ECDSACoder.sign(data, privateKey);
+        System.err.println("签名:\r" + Hex.encodeHexString(sign));
 
-		// 验证签名
-		boolean status = ECDSACoder.verify(data, publicKey, sign);
-		System.err.println("状态:\r" + status);
-		assertTrue(status);
+        // 验证签名
+        boolean status = ECDSACoder.verify(data, publicKey, sign);
+        System.err.println("状态:\r" + status);
+        assertTrue(status);
 
-	}
+    }
 
 }

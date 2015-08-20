@@ -19,59 +19,58 @@ import org.junit.Test;
  */
 public class ElGamalCoderTest {
 
-	/**
-	 * 公钥
-	 */
-	private byte[] publicKey;
+    /**
+     * 公钥
+     */
+    private byte[] publicKey;
 
-	/**
-	 * 私钥
-	 */
-	private byte[] privateKey;
+    /**
+     * 私钥
+     */
+    private byte[] privateKey;
 
-	/**
-	 * 初始化密钥
-	 * 
-	 * @throws Exception
-	 */
-	@Before
-	public void initKey() throws Exception {
-		
-		Map<String, Object> keyMap = ElGamalCoder.initKey();
+    /**
+     * 初始化密钥
+     * 
+     * @throws Exception
+     */
+    @Before
+    public void initKey() throws Exception {
 
-		publicKey = ElGamalCoder.getPublicKey(keyMap);
-		privateKey = ElGamalCoder.getPrivateKey(keyMap);
+        Map<String, Object> keyMap = ElGamalCoder.initKey();
 
-		System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
-		System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
-	}
+        publicKey = ElGamalCoder.getPublicKey(keyMap);
+        privateKey = ElGamalCoder.getPrivateKey(keyMap);
 
-	/**
-	 * 校验
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void test() throws Exception {
+        System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
+        System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
+    }
 
-		String inputStr = "ElGamal加密";
+    /**
+     * 校验
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void test() throws Exception {
 
-		byte[] data = inputStr.getBytes();
+        String inputStr = "ElGamal加密";
 
-		System.err.println("原文: \n" + inputStr);
+        byte[] data = inputStr.getBytes();
 
-		byte[] encodedData = ElGamalCoder.encryptByPublicKey(data, publicKey);
+        System.err.println("原文: \n" + inputStr);
 
-		System.err.println("加密后: \n" + Base64.encodeBase64String(encodedData));
+        byte[] encodedData = ElGamalCoder.encryptByPublicKey(data, publicKey);
 
-		byte[] decodedData = ElGamalCoder.decryptByPrivateKey(encodedData,
-				privateKey);
+        System.err.println("加密后: \n" + Base64.encodeBase64String(encodedData));
 
-		String outputStr = new String(decodedData);
+        byte[] decodedData = ElGamalCoder.decryptByPrivateKey(encodedData, privateKey);
 
-		System.err.println("解密后: \n" + outputStr);
+        String outputStr = new String(decodedData);
 
-		assertEquals(inputStr, outputStr);
-	}
+        System.err.println("解密后: \n" + outputStr);
+
+        assertEquals(inputStr, outputStr);
+    }
 
 }
