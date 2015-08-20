@@ -25,169 +25,166 @@ import java.util.Map;
  * @version 1.0
  */
 public abstract class RSACoder {
-	
-	/**
-	 * 数字签名
-	 * 密钥算法
-	 */
-	public static final String KEY_ALGORITHM = "RSA";
 
-	/**
-	 * 数字签名
-	 * 签名/验证算法
-	 */
-	public static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
+    /**
+     * 数字签名
+     * 密钥算法
+     */
+    public static final String  KEY_ALGORITHM       = "RSA";
 
-	/**
-	 * 公钥
-	 */
-	private static final String PUBLIC_KEY = "RSAPublicKey";
+    /**
+     * 数字签名
+     * 签名/验证算法
+     */
+    //public static final String  SIGNATURE_ALGORITHM = "SHA1withRSA";
+    public static final String  SIGNATURE_ALGORITHM = "SHA256withRSA";
 
-	/**
-	 * 私钥
-	 */
-	private static final String PRIVATE_KEY = "RSAPrivateKey";
+    /**
+     * 公钥
+     */
+    private static final String PUBLIC_KEY          = "RSAPublicKey";
 
-	/**
-	 * RSA密钥长度 默认1024位，
-	 *  密钥长度必须是64的倍数， 
-	 *  范围在512至65536位之间。
-	 */
-	private static final int KEY_SIZE = 512;
+    /**
+     * 私钥
+     */
+    private static final String PRIVATE_KEY         = "RSAPrivateKey";
 
-	/**
-	 * 签名
-	 * 
-	 * @param data
-	 *            待签名数据
-	 * @param privateKey
-	 *            私钥
-	 * @return byte[] 数字签名
-	 * @throws Exception
-	 */
-	public static byte[] sign(byte[] data, byte[] privateKey) throws Exception {
+    /**
+     * RSA密钥长度 默认1024位，
+     *  密钥长度必须是64的倍数， 
+     *  范围在512至65536位之间。
+     */
+    private static final int    KEY_SIZE            = 2048;
 
-		// 转换私钥材料
-		PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateKey);
+    /**
+     * 签名
+     * 
+     * @param data
+     *            待签名数据
+     * @param privateKey
+     *            私钥
+     * @return byte[] 数字签名
+     * @throws Exception
+     */
+    public static byte[] sign(byte[] data, byte[] privateKey) throws Exception {
 
-		// 实例化密钥工厂
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        // 转换私钥材料
+        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateKey);
 
-		// 取私钥匙对象
-		PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
+        // 实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
 
-		// 实例化Signature
-		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+        // 取私钥匙对象
+        PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
 
-		// 初始化Signature
-		signature.initSign(priKey);
+        // 实例化Signature
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
 
-		// 更新
-		signature.update(data);
+        // 初始化Signature
+        signature.initSign(priKey);
 
-		// 签名
-		return signature.sign();
-	}
+        // 更新
+        signature.update(data);
 
-	/**
-	 * 校验
-	 * 
-	 * @param data
-	 *            待校验数据
-	 * @param publicKey
-	 *            公钥
-	 * @param sign
-	 *            数字签名
-	 * 
-	 * @return boolean 校验成功返回true 失败返回false
-	 * @throws Exception
-	 * 
-	 */
-	public static boolean verify(byte[] data, byte[] publicKey, byte[] sign)
-			throws Exception {
+        // 签名
+        return signature.sign();
+    }
 
-		// 转换公钥材料
-		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
+    /**
+     * 校验
+     * 
+     * @param data
+     *            待校验数据
+     * @param publicKey
+     *            公钥
+     * @param sign
+     *            数字签名
+     * 
+     * @return boolean 校验成功返回true 失败返回false
+     * @throws Exception
+     * 
+     */
+    public static boolean verify(byte[] data, byte[] publicKey, byte[] sign) throws Exception {
 
-		// 实例化密钥工厂
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        // 转换公钥材料
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
 
-		// 生成公钥
-		PublicKey pubKey = keyFactory.generatePublic(keySpec);
+        // 实例化密钥工厂
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
 
-		// 实例化Signature
-		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
+        // 生成公钥
+        PublicKey pubKey = keyFactory.generatePublic(keySpec);
 
-		// 初始化Signature
-		signature.initVerify(pubKey);
+        // 实例化Signature
+        Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
 
-		// 更新
-		signature.update(data);
+        // 初始化Signature
+        signature.initVerify(pubKey);
 
-		// 验证
-		return signature.verify(sign);
-	}
+        // 更新
+        signature.update(data);
 
-	/**
-	 * 取得私钥
-	 * 
-	 * @param keyMap
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] getPrivateKey(Map<String, Object> keyMap)
-			throws Exception {
+        // 验证
+        return signature.verify(sign);
+    }
 
-		Key key = (Key) keyMap.get(PRIVATE_KEY);
+    /**
+     * 取得私钥
+     * 
+     * @param keyMap
+     * @return
+     * @throws Exception
+     */
+    public static byte[] getPrivateKey(Map<String, Object> keyMap) throws Exception {
 
-		return key.getEncoded();
-	}
+        Key key = (Key) keyMap.get(PRIVATE_KEY);
 
-	/**
-	 * 取得公钥
-	 * 
-	 * @param keyMap
-	 * @return
-	 * @throws Exception
-	 */
-	public static byte[] getPublicKey(Map<String, Object> keyMap)
-			throws Exception {
+        return key.getEncoded();
+    }
 
-		Key key = (Key) keyMap.get(PUBLIC_KEY);
+    /**
+     * 取得公钥
+     * 
+     * @param keyMap
+     * @return
+     * @throws Exception
+     */
+    public static byte[] getPublicKey(Map<String, Object> keyMap) throws Exception {
 
-		return key.getEncoded();
-	}
+        Key key = (Key) keyMap.get(PUBLIC_KEY);
 
-	/**
-	 * 初始化密钥
-	 * 
-	 * @return Map 密钥对儿 Map
-	 * @throws Exception
-	 */
-	public static Map<String, Object> initKey() throws Exception {
+        return key.getEncoded();
+    }
 
-		// 实例化密钥对儿生成器
-		KeyPairGenerator keyPairGen = KeyPairGenerator
-				.getInstance(KEY_ALGORITHM);
+    /**
+     * 初始化密钥
+     * 
+     * @return Map 密钥对儿 Map
+     * @throws Exception
+     */
+    public static Map<String, Object> initKey() throws Exception {
 
-		// 初始化密钥对儿生成器
-		keyPairGen.initialize(KEY_SIZE);
+        // 实例化密钥对儿生成器
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(KEY_ALGORITHM);
 
-		// 生成密钥对儿
-		KeyPair keyPair = keyPairGen.generateKeyPair();
+        // 初始化密钥对儿生成器
+        keyPairGen.initialize(KEY_SIZE);
 
-		// 公钥
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        // 生成密钥对儿
+        KeyPair keyPair = keyPairGen.generateKeyPair();
 
-		// 私钥
-		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        // 公钥
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
-		// 封装密钥
-		Map<String, Object> keyMap = new HashMap<String, Object>(2);
+        // 私钥
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
-		keyMap.put(PUBLIC_KEY, publicKey);
-		keyMap.put(PRIVATE_KEY, privateKey);
+        // 封装密钥
+        Map<String, Object> keyMap = new HashMap<String, Object>(2);
 
-		return keyMap;
-	}
+        keyMap.put(PUBLIC_KEY, publicKey);
+        keyMap.put(PRIVATE_KEY, privateKey);
+
+        return keyMap;
+    }
 }
