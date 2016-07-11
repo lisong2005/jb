@@ -105,8 +105,8 @@ public abstract class CertificateCoder {
      * @return Certificate 证书
      * @throws Exception
      */
-    private static Certificate getCertificate(String keyStorePath, String alias, String password)
-                                                                                                 throws Exception {
+    private static Certificate getCertificate(String keyStorePath, String alias,
+                                              String password) throws Exception {
 
         // 获得密钥库
         KeyStore ks = getKeyStore(keyStorePath, password);
@@ -256,8 +256,8 @@ public abstract class CertificateCoder {
      * @return byte[] 签名
      * @throws Exception
      */
-    public static byte[] sign(byte[] sign, String keyStorePath, String alias, String password)
-                                                                                              throws Exception {
+    public static byte[] sign(byte[] sign, String keyStorePath, String alias,
+                              String password) throws Exception {
 
         // 获得证书
         X509Certificate x509Certificate = (X509Certificate) getCertificate(keyStorePath, alias,
@@ -289,7 +289,8 @@ public abstract class CertificateCoder {
      * @return boolean 验证通过为真
      * @throws Exception
      */
-    public static boolean verify(byte[] data, byte[] sign, String certificatePath) throws Exception {
+    public static boolean verify(byte[] data, byte[] sign,
+                                 String certificatePath) throws Exception {
 
         // 获得证书
         X509Certificate x509Certificate = (X509Certificate) getCertificate(certificatePath);

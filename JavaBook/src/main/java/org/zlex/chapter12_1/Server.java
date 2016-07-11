@@ -61,7 +61,8 @@ public class Server extends JFrame {
     private Container          container          = getContentPane();
     private JPanel             buttonPanel        = new JPanel();
 
-    private JTextField         addressTextField   = new JTextField(Messages.getString("Server.url"));
+    private JTextField         addressTextField   = new JTextField(
+        Messages.getString("Server.url"));
 
     /**
      * 默认宽度
@@ -200,8 +201,8 @@ public class Server extends JFrame {
      * @return 返回的数据包
      * @throws IOException
      */
-    public static byte[] httpPost(String urlString, byte[] requestData, Properties requestProperties)
-                                                                                                     throws Exception {
+    public static byte[] httpPost(String urlString, byte[] requestData,
+                                  Properties requestProperties) throws Exception {
 
         byte[] responseData = null;
 

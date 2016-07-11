@@ -55,8 +55,8 @@ public class SSLSecurity {
      * @throws Exception
      */
     public static SSLServerSocket getSSLServerSocket(String serverStorePath,
-                                                     String serverStorePassword,
-                                                     String caStorePath, String caStorePassword,
+                                                     String serverStorePassword, String caStorePath,
+                                                     String caStorePassword,
                                                      int port) throws Exception {
         SSLContext ctx = getSSLContext(serverStorePath, serverStorePassword, caStorePath,
             caStorePassword);
@@ -79,8 +79,8 @@ public class SSLSecurity {
      * @throws Exception
      */
     public static SSLContext getSSLContext(String keyStorePath, String keyStorePassword,
-                                           String trustStorePath, String trustStorePassword)
-                                                                                            throws Exception {
+                                           String trustStorePath,
+                                           String trustStorePassword) throws Exception {
 
         SSLContext ctx = SSLContext.getInstance(PROTOCOL);
 

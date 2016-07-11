@@ -270,7 +270,8 @@ public abstract class CertificateCoder {
      * @return boolean 验证通过为真
      * @throws Exception
      */
-    public static boolean verify(byte[] data, byte[] sign, String certificatePath) throws Exception {
+    public static boolean verify(byte[] data, byte[] sign,
+                                 String certificatePath) throws Exception {
 
         // 获得证书
         X509Certificate x509Certificate = (X509Certificate) getCertificate(certificatePath);

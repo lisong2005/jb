@@ -57,8 +57,8 @@ public class UDPSocket {
      *            发送端口
      * @throws SocketException
      */
-    public UDPSocket(String localHost, String remoteHost, int receivePort, int sendPort)
-                                                                                        throws SocketException {
+    public UDPSocket(String localHost, String remoteHost, int receivePort,
+                     int sendPort) throws SocketException {
         this.remoteHost = remoteHost;
         this.sendPort = sendPort;
 

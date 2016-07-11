@@ -70,8 +70,8 @@ public abstract class HTTPSCoder {
                                                         String trustStorePath) throws Exception {
 
         // 实例化密钥库
-        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory
-            .getDefaultAlgorithm());
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory
+            .getInstance(KeyManagerFactory.getDefaultAlgorithm());
 
         // 获得密钥库
         KeyStore keyStore = getKeyStore(keyStorePath, password);
@@ -115,8 +115,8 @@ public abstract class HTTPSCoder {
      * @throws Exception
      */
     public static void configSSLSocketFactory(HttpsURLConnection conn, String password,
-                                              String keyStorePath, String trustKeyStorePath)
-                                                                                            throws Exception {
+                                              String keyStorePath,
+                                              String trustKeyStorePath) throws Exception {
 
         // 获得SSLSocketFactory
         SSLSocketFactory sslSocketFactory = getSSLSocketFactory(password, keyStorePath,

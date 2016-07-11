@@ -75,9 +75,9 @@ public class Test extends Thread {
 
             return;
         }
-        System.out.println(session.getPeerHost() + " has presented a certificate belonging to"
-                           + "[" + cert.getSubjectDN() + "]\n"
-                           + "The certificate was issued by: \t" + "[" + cert.getIssuerDN() + "]");
+        System.out.println(session.getPeerHost() + " has presented a certificate belonging to" + "["
+                           + cert.getSubjectDN() + "]\n" + "The certificate was issued by: \t" + "["
+                           + cert.getIssuerDN() + "]");
 
     }
 
