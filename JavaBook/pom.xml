@@ -487,13 +487,7 @@
 							</includes>
 							<!-- <excludes><exclude>**/image2</exclude></excludes> -->
 						</resource>
-						<resource>
-							<directory>src/lib/</directory>
-							<targetPath>WEB-INF/lib</targetPath>
-							<excludes>
-								<exclude>*-source.jar</exclude>
-							</excludes>
-						</resource>
+						
 					</webResources>
 				</configuration>
 			</plugin>

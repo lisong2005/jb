@@ -3,14 +3,14 @@
  */
 package org.zlex.chapter09_1;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 /**
  * RSA数字签名校验
@@ -59,14 +59,16 @@ public class RSACoderTest {
         String inputStr = "RSA数字签名";
         byte[] data = inputStr.getBytes();
 
-        // 产生签名
-        byte[] sign = RSACoder.sign(data, privateKey);
-        System.err.println("签名:\n" + Hex.encodeHexString(sign));
+        {
+            // 产生签名
+            byte[] sign = RSACoder.sign(data, privateKey);
+            System.err.println("签名:\n" + Hex.encodeHexString(sign));
 
-        // 验证签名
-        boolean status = RSACoder.verify(data, publicKey, sign);
-        System.err.println("状态:\n" + status);
-        assertTrue(status);
+            // 验证签名
+            boolean status = RSACoder.verify(data, publicKey, sign);
+            System.err.println("状态:\n" + status);
+            assertTrue(status);
+        }
 
     }
 
